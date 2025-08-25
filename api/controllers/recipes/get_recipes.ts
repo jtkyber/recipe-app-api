@@ -2,9 +2,7 @@ import axios from 'axios';
 import { Request, Response } from 'express';
 import NodeCache from 'node-cache';
 import { ISearchResult } from '../../types/recipe';
-import { ISearch } from '../../types/search';
-import { addSummaryToFile } from '../../utils/addSummaryToFile';
-import { isNumber, toParamValue } from '../../utils/utils';
+import { toParamValue } from '../../utils/utils';
 
 export const getRecipes = async (req: Request, res: Response, myCache: NodeCache) => {
 	const query = req.query;
@@ -79,6 +77,4 @@ export const getRecipes = async (req: Request, res: Response, myCache: NodeCache
 	data.pointsSpentThisRequest = recipeRes.headers['x-api-quota-request'];
 
 	res.json(data);
-
-	// await addSummaryToFile(data);
 };
