@@ -1,0 +1,167 @@
+import cors from 'cors';
+import 'dotenv/config';
+import express, { NextFunction, Request, Response } from 'express';
+import NodeCache from 'node-cache';
+
+const myCache = new NodeCache();
+const app = express();
+const port = 3000;
+
+app.use(express.json());
+app.use(
+	cors({
+		origin: 'http://localhost:5173',
+	})
+);
+
+import { GoogleGenAI } from '@google/genai';
+import { Knex, knex } from 'knex';
+import { getUser } from './app/controllers/auth/get_user';
+import { login } from './app/controllers/auth/login';
+import { signUp } from './app/controllers/auth/sign_up';
+import { updateDiet } from './app/controllers/profile/update_diet';
+import { updateExcludedIngredients } from './app/controllers/profile/update_excluded_ingredients';
+import { updateIntolerances } from './app/controllers/profile/update_intolerances';
+import { updatePassword } from './app/controllers/profile/update_password';
+import { updateUsername } from './app/controllers/profile/update_username';
+import { getRecipeInformation } from './app/controllers/recipes/get_recipe_information';
+import { getRecipeInformationBulk } from './app/controllers/recipes/get_recipe_information_bulk';
+import { getRecipeSummary } from './app/controllers/recipes/get_recipe_summary';
+import { getRecipes } from './app/controllers/recipes/get_recipes';
+import { recipeAutocomplete } from './app/controllers/recipes/recipe_autocomplete';
+import { toggleSaveRecipe } from './app/controllers/recipes/save_recipe';
+
+const knexConfig: Knex.Config = {
+	client: 'pg',
+	connection: {
+		connectionString: process.env.DB_CONNECTION_STRING,
+	},
+};
+const db = knex(knexConfig);
+
+const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+
+app.get('/', async (req, res) => {
+	res.send('Working');
+});
+
+app.get('/getUser', async (req, res, next) => {
+	try {
+		await getUser(req, res, db);
+	} catch (err) {
+		next(err);
+	}
+});
+
+app.post('/login', async (req, res, next) => {
+	try {
+		await login(req, res, db);
+	} catch (err) {
+		next(err);
+	}
+});
+
+app.post('/signUp', async (req, res, next) => {
+	try {
+		await signUp(req, res, db);
+	} catch (err) {
+		next(err);
+	}
+});
+
+app.get('/getRecipes', async (req, res, next) => {
+	try {
+		await getRecipes(req, res, myCache);
+	} catch (err) {
+		next(err);
+	}
+});
+
+app.get('/getRecipeInformation', async (req, res, next) => {
+	try {
+		await getRecipeInformation(req, res, myCache);
+	} catch (err) {
+		next(err);
+	}
+});
+
+app.get('/getRecipeInformationBulk', async (req, res, next) => {
+	try {
+		await getRecipeInformationBulk(req, res, myCache);
+	} catch (err) {
+		next(err);
+	}
+});
+
+app.get('/getRecipeSummary', async (req, res, next) => {
+	try {
+		await getRecipeSummary(req, res, ai, myCache);
+	} catch (err) {
+		next(err);
+	}
+});
+
+app.get('/getRecipeAutocomplete', async (req, res, next) => {
+	try {
+		await recipeAutocomplete(req, res, myCache);
+	} catch (err) {
+		next(err);
+	}
+});
+
+app.put('/toggleSaveRecipe', async (req, res, next) => {
+	try {
+		await toggleSaveRecipe(req, res, db);
+	} catch (err) {
+		next(err);
+	}
+});
+
+app.put('/updateUsername', async (req, res, next) => {
+	try {
+		await updateUsername(req, res, db);
+	} catch (err) {
+		next(err);
+	}
+});
+
+app.put('/updatePassword', async (req, res, next) => {
+	try {
+		await updatePassword(req, res, db);
+	} catch (err) {
+		next(err);
+	}
+});
+
+app.put('/updateDiet', async (req, res, next) => {
+	try {
+		await updateDiet(req, res, db);
+	} catch (err) {
+		next(err);
+	}
+});
+
+app.put('/updateIntolerances', async (req, res, next) => {
+	try {
+		await updateIntolerances(req, res, db);
+	} catch (err) {
+		next(err);
+	}
+});
+
+app.put('/updateExcludedIngredients', async (req, res, next) => {
+	try {
+		await updateExcludedIngredients(req, res, db);
+	} catch (err) {
+		next(err);
+	}
+});
+
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+	console.log(err);
+	res.status(400).send({ error: err.message });
+});
+
+app.listen(port, () => {
+	console.log(`Listening on port ${port}`);
+});
