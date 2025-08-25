@@ -16,16 +16,16 @@ app.use(
 
 import { GoogleGenAI } from '@google/genai';
 import { Knex, knex } from 'knex';
-import { getUser } from './controllers/auth/get_user';
-import { login } from './controllers/auth/login';
-import { signUp } from './controllers/auth/sign_up';
-import { updateProfile } from './controllers/profile/update_profile';
-import { getRecipeInformation } from './controllers/recipes/get_recipe_information';
-import { getRecipeInformationBulk } from './controllers/recipes/get_recipe_information_bulk';
-import { getRecipeSummary } from './controllers/recipes/get_recipe_summary';
-import { getRecipes } from './controllers/recipes/get_recipes';
-import { recipeAutocomplete } from './controllers/recipes/recipe_autocomplete';
-import { toggleSaveRecipe } from './controllers/recipes/save_recipe';
+import { getUser } from '../src/controllers/auth/get_user';
+import { login } from '../src/controllers/auth/login';
+import { signUp } from '../src/controllers/auth/sign_up';
+import { updateProfile } from '../src/controllers/profile/update_profile';
+import { getRecipeInformation } from '../src/controllers/recipes/get_recipe_information';
+import { getRecipeInformationBulk } from '../src/controllers/recipes/get_recipe_information_bulk';
+import { getRecipeSummary } from '../src/controllers/recipes/get_recipe_summary';
+import { getRecipes } from '../src/controllers/recipes/get_recipes';
+import { recipeAutocomplete } from '../src/controllers/recipes/recipe_autocomplete';
+import { toggleSaveRecipe } from '../src/controllers/recipes/save_recipe';
 
 const knexConfig: Knex.Config = {
 	client: 'pg',
