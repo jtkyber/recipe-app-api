@@ -1,7 +1,7 @@
 import { pipeline, SummarizationOutput } from '@xenova/transformers';
 import { GenerationConfigType } from '@xenova/transformers/types/utils/generation';
 import striptags from 'striptags';
-import { ISearchResult } from '../types/recipe';
+import { ISearchResult } from '../../api/types/recipe';
 
 export default async function summarizeRecipeFromResult(data: ISearchResult) {
 	try {

@@ -10,27 +10,26 @@ const port = 3000;
 app.use(express.json());
 app.use(
 	cors({
-		// origin: 'http://localhost:5173',
-		origin: 'https://recipe-app-ten-xi.vercel.app',
+		origin: ['http://localhost:5173', 'https://recipe-app-ten-xi.vercel.app'],
 	})
 );
 
 import { GoogleGenAI } from '@google/genai';
 import { Knex, knex } from 'knex';
-import { getUser } from './app/controllers/auth/get_user';
-import { login } from './app/controllers/auth/login';
-import { signUp } from './app/controllers/auth/sign_up';
-import { updateDiet } from './app/controllers/profile/update_diet';
-import { updateExcludedIngredients } from './app/controllers/profile/update_excluded_ingredients';
-import { updateIntolerances } from './app/controllers/profile/update_intolerances';
-import { updatePassword } from './app/controllers/profile/update_password';
-import { updateUsername } from './app/controllers/profile/update_username';
-import { getRecipeInformation } from './app/controllers/recipes/get_recipe_information';
-import { getRecipeInformationBulk } from './app/controllers/recipes/get_recipe_information_bulk';
-import { getRecipeSummary } from './app/controllers/recipes/get_recipe_summary';
-import { getRecipes } from './app/controllers/recipes/get_recipes';
-import { recipeAutocomplete } from './app/controllers/recipes/recipe_autocomplete';
-import { toggleSaveRecipe } from './app/controllers/recipes/save_recipe';
+import { getUser } from './controllers/auth/get_user';
+import { login } from './controllers/auth/login';
+import { signUp } from './controllers/auth/sign_up';
+import { updateDiet } from './controllers/profile/update_diet';
+import { updateExcludedIngredients } from './controllers/profile/update_excluded_ingredients';
+import { updateIntolerances } from './controllers/profile/update_intolerances';
+import { updatePassword } from './controllers/profile/update_password';
+import { updateUsername } from './controllers/profile/update_username';
+import { getRecipeInformation } from './controllers/recipes/get_recipe_information';
+import { getRecipeInformationBulk } from './controllers/recipes/get_recipe_information_bulk';
+import { getRecipeSummary } from './controllers/recipes/get_recipe_summary';
+import { getRecipes } from './controllers/recipes/get_recipes';
+import { recipeAutocomplete } from './controllers/recipes/recipe_autocomplete';
+import { toggleSaveRecipe } from './controllers/recipes/save_recipe';
 
 const knexConfig: Knex.Config = {
 	client: 'pg',
@@ -48,6 +47,7 @@ app.get('/', async (req, res) => {
 
 app.get('/getUser', async (req, res, next) => {
 	try {
+		console.log('/getUser');
 		await getUser(req, res, db);
 	} catch (err) {
 		next(err);
@@ -166,3 +166,5 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
 app.listen(port, () => {
 	console.log(`Listening on port ${port}`);
 });
+
+module.exports = app;

@@ -1,6 +1,6 @@
 import fs from 'fs';
 import striptags from 'striptags';
-import { ISearchResult } from '../types/recipe';
+import { ISearchResult } from '../../api/types/recipe';
 
 export const addSummaryToFile = async (data: ISearchResult) => {
 	try {

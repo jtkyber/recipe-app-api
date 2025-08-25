@@ -1,4 +1,4 @@
-import { UserKey } from '../types/user';
+import { UserKey } from '../../api/types/user';
 
 export const toParamValue = (value: any): string => {
 	if (Array.isArray(value)) {
