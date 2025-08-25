@@ -1,7 +1,7 @@
 import bcrypt from 'bcrypt';
 import { Request, Response } from 'express';
 import { Knex } from 'knex';
-import { IUser, UserKey } from '../../types/user';
+import { IUser } from '../../types/user';
 import { returnedKeys } from '../../utils/utils';
 
 export const signUp = async (req: Request, res: Response, db: Knex) => {
