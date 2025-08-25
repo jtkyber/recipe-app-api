@@ -23,6 +23,7 @@ import { updateDiet } from './controllers/profile/update_diet';
 import { updateExcludedIngredients } from './controllers/profile/update_excluded_ingredients';
 import { updateIntolerances } from './controllers/profile/update_intolerances';
 import { updatePassword } from './controllers/profile/update_password';
+import { updateProfile } from './controllers/profile/update_profile';
 import { updateUsername } from './controllers/profile/update_username';
 import { getRecipeInformation } from './controllers/recipes/get_recipe_information';
 import { getRecipeInformationBulk } from './controllers/recipes/get_recipe_information_bulk';
@@ -118,41 +119,9 @@ app.put('/toggleSaveRecipe', async (req, res, next) => {
 	}
 });
 
-app.put('/updateUsername', async (req, res, next) => {
+app.put('/updateProfile', async (req, res, next) => {
 	try {
-		await updateUsername(req, res, db);
-	} catch (err) {
-		next(err);
-	}
-});
-
-app.put('/updatePassword', async (req, res, next) => {
-	try {
-		await updatePassword(req, res, db);
-	} catch (err) {
-		next(err);
-	}
-});
-
-app.put('/updateDiet', async (req, res, next) => {
-	try {
-		await updateDiet(req, res, db);
-	} catch (err) {
-		next(err);
-	}
-});
-
-app.put('/updateIntolerances', async (req, res, next) => {
-	try {
-		await updateIntolerances(req, res, db);
-	} catch (err) {
-		next(err);
-	}
-});
-
-app.put('/updateExcludedIngredients', async (req, res, next) => {
-	try {
-		await updateExcludedIngredients(req, res, db);
+		await updateProfile(req, res, db);
 	} catch (err) {
 		next(err);
 	}
